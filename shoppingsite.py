@@ -63,7 +63,28 @@ def show_shopping_cart():
     # TODO: Display the contents of the shopping cart.
 
     # The logic here will be something like:
-    #
+    melon_total = 0
+
+    melons_in_cart = []
+
+    order_total = 0
+
+    cart = session["cart"]
+
+    for melon_id in cart:
+        melon = melons.get_by_id(melon_id)
+        quantity = cart[melon_id]
+
+        melon_total = melon.price * quantity
+        order_total = order_total + melon_total
+        # melon_total = '{0:2f}'.format(melon_total)
+        # order_total = '{0:2f}'.format(order_total)
+
+        melon.quantity = quantity
+        melon.melon_total = melon_total
+
+        melons_in_cart.append(melon)
+
     # - get the cart dictionary from the session
     # - create a list to hold melon objects and a variable to hold the total
     #   cost of the order
@@ -78,7 +99,7 @@ def show_shopping_cart():
     # Make sure your function can also handle the case wherein no cart has
     # been added to the session
 
-    return render_template("cart.html")
+    return render_template("cart.html", order_total=order_total, melons_in_cart=melons_in_cart)
 
 
 @app.route("/add_to_cart/<melon_id>")
@@ -89,13 +110,25 @@ def add_to_cart(melon_id):
     page and display a confirmation message: 'Melon successfully added to
     cart'."""
 
-    session['fav_number'] = 42
-
-    print(session['fav_number'])
     # TODO: Finish shopping cart functionality
 
     # The logic here should be something like:
     #
+
+    if "cart" in session:
+         cart = session["cart"] #{melon_id : 1}
+    # elif melon_id in cart:
+    else:
+        cart = session['cart'] = {}
+    
+    cart[melon_id] = cart.get(melon_id, 0) + 1
+    
+    #cart[melon_id] = cart.get(melon_id, 0) + 1   
+
+    flash("Your melon was successfully added")
+
+    print('****')
+    print(cart)    
     # - check if a "cart" exists in the session, and create one (an empty
     #   dictionary keyed to the string "cart") if not
     # - check if the desired melon id is the cart, and if not, put it in
@@ -103,7 +136,7 @@ def add_to_cart(melon_id):
     # - flash a success message
     # - redirect the user to the cart page
 
-    return "Oops! This needs to be implemented!"
+    return redirect("/cart")
 
 
 @app.route("/login", methods=["GET"])
