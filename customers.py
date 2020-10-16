@@ -44,6 +44,9 @@ def read_customers_from_file(filepath):
 
 def get_by_email(email):
 
-    return customers_dict[email]
+    if email not in customers_dict.keys():
+        return False
+    else:    
+        return customers_dict[email]
 
 customers_dict = read_customers_from_file("customers.txt")
