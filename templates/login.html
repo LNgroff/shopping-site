@@ -1,37 +1,41 @@
-<html>
-<head>
-  <title>Login</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-<form class="form-signin" method="POST">
+{% block body %}
 
-  <h2 class="form-signin-heading">Please Sign In</h2>
+    <html>
+    <head>
+      <title>Login</title>
+    </head>
+    <body>
 
-  <div class="form-group">
-    <label for="email-field" class="sr-only">Email Address</label>
-    <input type="email"
-           name="email"
-           class="form-control input-lg"
-           placeholder="Email Address"
-           required
-           autofocus>
-  </div>
+    <form class="form-signin" method="POST">
 
-  <div class="form-group">
-    <label for="password-field" class="sr-only">Password</label>
-    <input type="password"
-           name="password"
-           class="form-control input-lg"
-           placeholder="Password"
-           required>
-  </div>
+      <h2 class="form-signin-heading">Please Sign In</h2>
 
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In
-  </button>
+      <div class="form-group">
+        <label for="email-field" class="sr-only">Email Address</label>
+        <input type="email"
+              name="email"
+              class="form-control input-lg"
+              placeholder="Email Address"
+              required
+              autofocus>
+      </div>
 
-</form>
+      <div class="form-group">
+        <label for="password-field" class="sr-only">Password</label>
+        <input type="password"
+              name="password"
+              class="form-control input-lg"
+              placeholder="Password"
+              required>
+      </div>
 
-</body>
-</html>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In
+      </button>
 
+    </form>
+
+    </body>
+    </html>
+{% endblock %}
