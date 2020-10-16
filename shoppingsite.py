@@ -66,41 +66,42 @@ def show_shopping_cart():
     melon_total = 0
 
     melons_in_cart = []
-
+    # - create a list to hold melon objects and a variable to hold the total
+    
     order_total = 0
-
+    #   cost of the order
+    
     cart = session["cart"]
-
-    for melon_id in cart:
-        melon = melons.get_by_id(melon_id)
-        quantity = cart[melon_id]
+    # - get the cart dictionary from the session
+    
+    # - loop over the cart dictionary, and for each melon id:
+    for melon_id, quantity in cart.items():
+        melon = melons.get_by_id(melon_id) #    - get the corresponding Melon object
 
         melon_total = melon.price * quantity
+        #    - compute the total cost for that type of melon
+        
         order_total = order_total + melon_total
-        # melon_total = '{0:2f}'.format(melon_total)
+        #    - add this to the order total
+        # # melon_total = '{0:2f}'.format(melon_total)
         # order_total = '{0:2f}'.format(order_total)
 
         melon.quantity = quantity
         melon.melon_total = melon_total
-
+        #    - add quantity and total cost as attributes on the Melon object
+        
         melons_in_cart.append(melon)
-
-    # - get the cart dictionary from the session
-    # - create a list to hold melon objects and a variable to hold the total
-    #   cost of the order
-    # - loop over the cart dictionary, and for each melon id:
-    #    - get the corresponding Melon object
-    #    - compute the total cost for that type of melon
-    #    - add this to the order total
-    #    - add quantity and total cost as attributes on the Melon object
-    #    - add the Melon object to the list created above
-    # - pass the total order cost and the list of Melon objects to the template
+        #    - add the Melon object to the list created above
+    
+   
     #
     # Make sure your function can also handle the case wherein no cart has
     # been added to the session
 
-    return render_template("cart.html", order_total=order_total, melons_in_cart=melons_in_cart)
-
+    return render_template("cart.html", 
+                            order_total=order_total, 
+                            melons_in_cart=melons_in_cart)
+     # - pass the total order cost and the list of Melon objects to the template
 
 @app.route("/add_to_cart/<melon_id>")
 def add_to_cart(melon_id):
@@ -110,32 +111,25 @@ def add_to_cart(melon_id):
     page and display a confirmation message: 'Melon successfully added to
     cart'."""
 
-    # TODO: Finish shopping cart functionality
-
-    # The logic here should be something like:
-    #
-
+    # - check if a "cart" exists in the session, and create one (an empty
+    #   dictionary keyed to the string "cart") if not
     if "cart" in session:
-         cart = session["cart"] #{melon_id : 1}
+        cart = session["cart"] #{melon_id : 1}
     # elif melon_id in cart:
     else:
         cart = session['cart'] = {}
     
     cart[melon_id] = cart.get(melon_id, 0) + 1
-    
+    # - increment the count for that melon id by 1
     #cart[melon_id] = cart.get(melon_id, 0) + 1   
 
     flash("Your melon was successfully added")
-
-    print('****')
-    print(cart)    
-    # - check if a "cart" exists in the session, and create one (an empty
-    #   dictionary keyed to the string "cart") if not
-    # - check if the desired melon id is the cart, and if not, put it in
-    # - increment the count for that melon id by 1
     # - flash a success message
+    
+    # test print('****') 
+    # test print(cart)    
+    
     # - redirect the user to the cart page
-
     return redirect("/cart")
 
 
